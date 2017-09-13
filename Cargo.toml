@@ -1,0 +1,6 @@
+[package]
+name = "coding-dojo"
+version = "0.1.0"
+authors = ["Ferran"]
+
+[dependencies]
