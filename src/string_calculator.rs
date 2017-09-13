@@ -15,12 +15,15 @@ impl StringCalculator {
             result = input.parse().unwrap();
         } else {
             let numbers: Vec<&str> = input.split(",").collect();
-            let number1: u32 = numbers[0].parse().unwrap();
-            let number2: u32 = numbers[1].parse().unwrap();
-            result = number1 + number2;
+            result = self.sum_string_numbers(&numbers);
         }
 
         result
+    }
+
+    fn sum_string_numbers(&self, string_numbers: &Vec<&str>) -> u32 {
+        let parsed_number: Vec<u32> = string_numbers.into_iter().map(|string_number| string_number.parse().unwrap()).collect();
+        parsed_number.into_iter().fold(0, |sum, x| sum + x)
     }
 }
 
@@ -43,7 +46,13 @@ mod tests {
     }
     
     #[test]
-    fn two_number_comma_delimited_string_should_return_the_number() {
+    fn two_numbers_comma_delimited_string_should_return_the_sum() {
         assert_eq!(3, get_string_calculator().add("1,2"));
+    }
+    
+    #[test]
+    fn more_number_comma_delimited_string_should_return_the_sum() {
+        assert_eq!(6, get_string_calculator().add("1,2,3"));
+        assert_eq!(10, get_string_calculator().add("1,2,3,4"));
     }
 }
