@@ -10,31 +10,36 @@ impl StringCalculator {
         if self.is_empty_string(input) {
             return 0;
         }
-        let result: u32;
-        if self.is_just_one_number(input) {
-            result = input.parse().unwrap();
-        } else {
-            let numbers: Vec<&str> = input.split(|s| s == ',' || s == '\n').collect();
-            result = self.sum_string_numbers(&numbers);
-        }
+        let delimiters = self.get_delimiters();
+        let numbers: Vec<&str> = input.split(|s| delimiters.contains(&s)).collect();
+        let result = self.parse_and_sum_string_numbers(&numbers);
 
         result
     }
 
-    fn sum_string_numbers(&self, string_numbers: &Vec<&str>) -> u32 {
-        let parsed_number: Vec<u32> = string_numbers
+    fn get_delimiters(&self) -> Vec<char> {
+        let default_delimiters = vec![',', '\n'];
+        default_delimiters
+    }
+
+    fn parse_and_sum_string_numbers(&self, string_numbers: &Vec<&str>) -> u32 {
+        let parsed_numbers: Vec<u32> = self.parse(string_numbers);
+        self.sum_vector_elements(parsed_numbers)
+    }
+
+    fn parse(&self, string_numbers: &Vec<&str>) -> Vec<u32> {
+        string_numbers
             .into_iter()
             .map(|string_number| string_number.parse().unwrap())
-            .collect();
-        parsed_number.into_iter().fold(0, |sum, x| sum + x)
+            .collect()
+    }
+
+    fn sum_vector_elements(&self, input: Vec<u32>) -> u32 {
+        input.into_iter().fold(0, |sum, x| sum + x)
     }
 
     fn is_empty_string(&self, input: &str) -> bool {
         input == ""
-    }
-
-    fn is_just_one_number(&self, input: &str) -> bool {
-        input.len() == 1
     }
 }
 
@@ -70,6 +75,11 @@ mod tests {
     #[test]
     fn numbers_comma_or_newline_delimited_string_should_return_the_sum() {
         assert_eq!(6, get_string_calculator().add("1\n2,3"));
-        assert_eq!(10, get_string_calculator().add("1,2\n3\n4"));
+        assert_eq!(15, get_string_calculator().add("1,2\n3\n4,5"));
+    }
+
+    #[test]
+    fn numbers_custom_delimited_string_should_return_the_sum() {
+        assert_eq!(6, get_string_calculator().add("//;\n1;2;3"));
     }
 }
