@@ -14,7 +14,10 @@ impl StringCalculator {
         if input.len() == 1 {
             result = input.parse().unwrap();
         } else {
-            result = 1000;
+            let numbers: Vec<&str> = input.split(",").collect();
+            let number1: u32 = numbers[0].parse().unwrap();
+            let number2: u32 = numbers[1].parse().unwrap();
+            result = number1 + number2;
         }
 
         result
@@ -41,6 +44,6 @@ mod tests {
     
     #[test]
     fn two_number_comma_delimited_string_should_return_the_number() {
-        assert_eq!(3, get_string_calculator().add("1, 2"));
+        assert_eq!(3, get_string_calculator().add("1,2"));
     }
 }
