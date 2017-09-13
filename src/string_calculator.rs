@@ -7,6 +7,9 @@ impl StringCalculator {
     }
 
     pub fn add(&self, input: &str) -> u32 {
+        if input == "" {
+            return 0;
+        }
         return 1000;
     }
 }
@@ -15,12 +18,12 @@ impl StringCalculator {
 mod tests {
     use super::*;
 
-    fn getStringCalculator() -> StringCalculator {
+    fn get_string_calculator() -> StringCalculator {
         StringCalculator::new()
     }
     
     #[test]
-    fn emptyStringShouldReturnZero() {
-        assert_eq!(0, getStringCalculator().add(""));
+    fn empty_string_should_return_zero() {
+        assert_eq!(0, get_string_calculator().add(""));
     }
 }
