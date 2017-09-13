@@ -14,7 +14,7 @@ impl StringCalculator {
         if self.is_just_one_number(input) {
             result = input.parse().unwrap();
         } else {
-            let numbers: Vec<&str> = input.split(",").collect();
+            let numbers: Vec<&str> = input.split(|s| s == ',' || s == '\n').collect();
             result = self.sum_string_numbers(&numbers);
         }
 
