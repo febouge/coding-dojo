@@ -10,7 +10,14 @@ impl StringCalculator {
         if input == "" {
             return 0;
         }
-        return 1000;
+        let result: u32;
+        if input.len() == 1 {
+            result = input.parse().unwrap();
+        } else {
+            result = 1000;
+        }
+
+        result
     }
 }
 
@@ -25,5 +32,15 @@ mod tests {
     #[test]
     fn empty_string_should_return_zero() {
         assert_eq!(0, get_string_calculator().add(""));
+    }
+
+    #[test]
+    fn one_number_string_should_return_the_number() {
+        assert_eq!(1, get_string_calculator().add("1"));
+    }
+    
+    #[test]
+    fn two_number_comma_delimited_string_should_return_the_number() {
+        assert_eq!(3, get_string_calculator().add("1, 2"));
     }
 }
