@@ -1,0 +1,6 @@
+[package]
+name = "rockpaperscissorslizardspock"
+version = "0.1.0"
+authors = ["ferran"]
+
+[dependencies]
