@@ -1,5 +1,7 @@
 
-struct StringCalculator;
+pub struct StringCalculator;
+
+const CUSTOM_DELIMITER_INDICATOR: &'static str = "//";
 
 impl StringCalculator {
     pub fn new() -> StringCalculator {
@@ -10,16 +12,23 @@ impl StringCalculator {
         if self.is_empty_string(input) {
             return 0;
         }
-        let delimiters = self.get_delimiters();
+        let mut delimiters = self.get_default_delimiters();        
+        if self.input_has_custom_delimiters(&input) {
+            
+        }
+        
         let numbers: Vec<&str> = input.split(|s| delimiters.contains(&s)).collect();
         let result = self.parse_and_sum_string_numbers(&numbers);
 
         result
     }
 
-    fn get_delimiters(&self) -> Vec<char> {
-        let default_delimiters = vec![',', '\n'];
-        default_delimiters
+    fn input_has_custom_delimiters(&self, input: &str) -> bool {
+        input.starts_with(CUSTOM_DELIMITER_INDICATOR)
+    }
+
+    fn get_default_delimiters(&self) -> Vec<char> {
+        vec![',', '\n']
     }
 
     fn parse_and_sum_string_numbers(&self, string_numbers: &Vec<&str>) -> u32 {
@@ -28,6 +37,7 @@ impl StringCalculator {
     }
 
     fn parse(&self, string_numbers: &Vec<&str>) -> Vec<u32> {
+        println!("{:?}", string_numbers);
         string_numbers
             .into_iter()
             .map(|string_number| string_number.parse().unwrap())
