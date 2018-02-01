@@ -64,6 +64,14 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(expected_quality, inventory[0].quality)
         self.assertEqual(expected_sell_in, inventory[0].sell_in)
 
+    def test_conjured_item_quality_degradation(self):
+        regular_item = Item("Conjured vegetable", 11, 31)
+        self.assert_item_is_correct(regular_item, 10, 29)
+
+    def test_conjured_item_quality_degradation_after_sell_in(self):
+        regular_item = Item("Conjured vegetable", -1, 24)
+        self.assert_item_is_correct(regular_item, -2, 20)
+
 
 if __name__ == '__main__':
     unittest.main()

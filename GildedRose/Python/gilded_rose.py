@@ -10,6 +10,7 @@ class GildedRose(object):
         self.BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert"
         self.SULFURAS = "Sulfuras, Hand of Ragnaros"
         self.AGED_BRIE = "Aged Brie"
+        self.CONJURED = "Conjured"
         self.MAX_ITEM_QUALITY = 50
         self.MIN_ITEM_QUALITY = 0
         self.MIN_SELL_IN = 0
@@ -37,9 +38,6 @@ class GildedRose(object):
             return
         item.sell_in -= 1
 
-    def is_sulfuras(self, item):
-        return item.name == self.SULFURAS
-
     def increase_quality(self, item, delta):
         if self.is_sulfuras(item):
             return
@@ -48,9 +46,6 @@ class GildedRose(object):
             item.quality = new_quality
         else:
             item.quality = self.MAX_ITEM_QUALITY
-
-    def is_special_item(self, item):
-        return item.name == self.AGED_BRIE or item.name == self.BACKSTAGE
 
     def increase_special_items_quality(self, item):
         delta_to_apply = self.REGULAR_QUALITY_DELTA
@@ -69,7 +64,14 @@ class GildedRose(object):
         if self.is_special_item(item):
             self.increase_special_items_quality(item)
             return
-        self.decrease_quality(item, self.REGULAR_QUALITY_DELTA)
+
+        self.decrease_item_quality_based_on_name(item)
+
+    def decrease_item_quality_based_on_name(self, item):
+        quality_delta = self.REGULAR_QUALITY_DELTA
+        if self.is_conjured(item):
+            quality_delta = quality_delta * 2
+        self.decrease_quality(item, quality_delta)
 
     def compute_extra_quality_based_on_sell_in(self, item):
         if item.sell_in > self.MIN_SELL_IN:
@@ -83,13 +85,22 @@ class GildedRose(object):
             item.quality = item.quality - item.quality
             return
 
-        self.decrease_quality(item, self.REGULAR_QUALITY_DELTA)
+        self.decrease_item_quality_based_on_name(item)
+
+    def is_special_item(self, item):
+        return self.is_aged_brie(item) or self.is_backstage(item)
 
     def is_aged_brie(self, item):
         return item.name == self.AGED_BRIE
 
     def is_backstage(self, item):
         return item.name == self.BACKSTAGE
+
+    def is_sulfuras(self, item):
+        return item.name == self.SULFURAS
+
+    def is_conjured(self, item):
+        return self.CONJURED in item.name
 
 
 class Item:
