@@ -1,6 +1,6 @@
 [package]
 name = "kata-potter"
 version = "0.1.0"
-authors = ["Ferran <febouge@protonmail.ch>"]
+authors = ["Ferran"]
 
 [dependencies]

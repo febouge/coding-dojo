@@ -1,1 +1,0 @@
-/home/ferran/Documents/Programacio/Rust/kata-potter/target/debug/kata_potter-1977726ad40a1a21: /home/ferran/Documents/Programacio/Rust/kata-potter/src/lib.rs /home/ferran/Documents/Programacio/Rust/kata-potter/src/test.rs
