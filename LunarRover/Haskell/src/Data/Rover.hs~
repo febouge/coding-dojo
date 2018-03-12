@@ -1,0 +1,11 @@
+module Data.Rover where
+
+import Data.Orientation
+import Data.Command
+
+data Rover = Rover { orientation :: Orientation
+                   , position :: (Int, Int)
+                   } deriving (Show, Eq)
+
+initRover :: Rover
+initRover = Rover North (0,0)
