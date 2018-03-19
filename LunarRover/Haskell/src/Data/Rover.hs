@@ -33,7 +33,18 @@ moveRoverBackward rover = move (-1) rover
 
 move :: Int -> Rover -> Rover
 move movementUnit (Rover orientation (x,y))
-  | Rover orientation (x,y) == Rover North (x,y) = Rover North (x,y+movementUnit)
-  | Rover orientation (x,y) == Rover East (x,y) = Rover East (x+movementUnit, y)
-  | Rover orientation (x,y) == Rover South (x,y) = Rover South (x, y-movementUnit)
-  | Rover orientation (x,y) == Rover West (x,y) = Rover West (x-movementUnit, y)
+  | Rover orientation (x,y) == Rover North (x,y) = Rover North (x,nextCoordinate y movementUnit)
+  | Rover orientation (x,y) == Rover East (x,y) = Rover East (nextCoordinate x movementUnit, y)
+  | Rover orientation (x,y) == Rover South (x,y) = Rover South (x, nextCoordinate y (-movementUnit))
+  | Rover orientation (x,y) == Rover West (x,y) = Rover West (nextCoordinate x (-movementUnit), y)
+
+nextCoordinate :: Int -> Int -> Int
+nextCoordinate currentCoordinate movementUnit
+  | isUpperBound = nextCoord - maxLunarCoord
+  | isLowerBound = nextCoord + maxLunarCoord
+  | otherwise = nextCoord
+  where nextCoord = currentCoordinate + movementUnit
+        isUpperBound = nextCoord >= maxLunarCoord
+        isLowerBound = nextCoord <= minLunarCoord
+        maxLunarCoord = 100
+        minLunarCoord = -1
