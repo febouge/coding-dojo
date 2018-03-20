@@ -3,12 +3,18 @@ module Data.Rover where
 import Data.Orientation
 import Data.Command
 
-data Rover = Rover Orientation (Int, Int)
+data Rover = Rover Orientation LunarCoords
+  deriving (Show, Eq)
+
+data LunarCoords = LunarCoords Int Int
   deriving (Show, Eq)
 
 initRover :: Rover
-initRover = Rover North (0,0)
+initRover = Rover North (LunarCoords 0 0)
 
+executeCommands :: [Char] -> Rover
+executeCommands commandChars = foldl reversedExecute initRover commandChars
+  where reversedExecute = flip executeCommand 
 
 executeCommand :: Char -> Rover -> Rover
 executeCommand commandChar rover = execute (commandFrom commandChar) rover
@@ -32,11 +38,18 @@ moveRoverBackward :: Rover -> Rover
 moveRoverBackward rover = move (-1) rover
 
 move :: Int -> Rover -> Rover
-move movementUnit (Rover orientation (x,y))
-  | Rover orientation (x,y) == Rover North (x,y) = Rover North (x,nextCoordinate y movementUnit)
-  | Rover orientation (x,y) == Rover East (x,y) = Rover East (nextCoordinate x movementUnit, y)
-  | Rover orientation (x,y) == Rover South (x,y) = Rover South (x, nextCoordinate y (-movementUnit))
-  | Rover orientation (x,y) == Rover West (x,y) = Rover West (nextCoordinate x (-movementUnit), y)
+move movementUnit (Rover orientation position)
+  | orientation == North = Rover orientation (moveOY position movementUnit)
+  | orientation == East  = Rover orientation (moveOX position movementUnit)
+  | orientation == South = Rover orientation (moveOY position (-movementUnit))
+  | orientation == West  = Rover orientation (moveOX position (-movementUnit))
+
+
+moveOY :: LunarCoords -> Int -> LunarCoords
+moveOY (LunarCoords x y) movementUnit = LunarCoords x (nextCoordinate y movementUnit)
+
+moveOX :: LunarCoords -> Int -> LunarCoords
+moveOX (LunarCoords x y) movementUnit = LunarCoords (nextCoordinate x movementUnit) y
 
 nextCoordinate :: Int -> Int -> Int
 nextCoordinate currentCoordinate movementUnit

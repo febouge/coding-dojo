@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 7a0cb209c8c5ee9a6ccd6f9e425c83f2c462bd37a8b90a18aaf7f14e051e7ef2
+-- hash: 956d2973ea7cd321dcea084426b8c9e59e66253a0fd82729159179684bf31459
 
 name:           lunar-rover
 version:        0.1.0.0
@@ -13,12 +13,10 @@ author:         Author name here
 maintainer:     example@example.com
 copyright:      2018 Author name here
 license:        BSD3
-license-file:   LICENSE
 build-type:     Simple
 cabal-version:  >= 1.10
 
 extra-source-files:
-    ChangeLog.md
     README.md
 
 source-repository head
