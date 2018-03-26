@@ -1,6 +1,9 @@
 module Data.Orientation where
 
-data Orientation = North | East | South | West
+data Orientation = North
+                 | East
+                 | South
+                 | West
   deriving (Show, Eq)
 
 turnRight :: Orientation -> Orientation
